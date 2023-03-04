@@ -1,0 +1,11 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Example') {
+            steps {
+                sh ("python script.py ${params.NAME} --age ${params.Ages}")
+            }
+        }
+    }
+}
