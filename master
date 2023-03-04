@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        
+        stage('Welcome to master'){
+            steps{
+                echo 'Start Program'
+            }
+        }
+
+        stage('Tigger the Slave Jobs') {
+            steps {
+            script{
+                 def file = readFile "./data.txt"
+                    def lines = file.readLines()[0].split(' ')
+                    println lines[0]
+                    println lines[1]
+                    env.name = lines[0]
+                    env.ages = lines[1]
+            }
+                echo 'Start Trigger to send name and age to slave'
+                build job: 'slave', parameters: [string(name: 'NAME', value: "$name"), string(name: 'Ages', value: "$ages")]
+            }
+        }
+    }
+}
